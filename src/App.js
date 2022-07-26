@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import "./App.css";
 import { useEffect, useState } from "react";
@@ -11,8 +10,8 @@ function App() {
         {todos.map((todo) => {
           return (
             <div className="todo">
-
               <p>{todo.name}</p>
+              <p>{todo.episodio}</p>
               <button onClick={() => handleWithEditButtonClick(todo)}>
                 <AiOutlineEdit size={20} color={"#64697b"}></AiOutlineEdit>
               </button>
@@ -40,12 +39,12 @@ function App() {
     //console.log(response.data);
   }
   async function editTodo() {
-    let aux = inputValue.split(",");
-    let name = aux[0];
-    let episodio = aux[1];
-    let id = selectedTodo.id;
+    const aux = inputValue.split(",");
+    const name = aux[0];
+    const episodio = aux[1];
+    const id = selectedTodo.id;
 
-    const response = await axios.put("https://herokubackendtrab.herokuapp.com/anime" + id, {
+    const response = await axios.put("https://herokubackendtrab.herokuapp.com/anime/" + id, {
       episodio: episodio,
       name: name
 
@@ -56,16 +55,18 @@ function App() {
     setInputValue("");
   }
   async function deleteTodo(todo) {
+    const id = todo.id;
     const response = await axios.delete(
-      `https://herokubackendtrab.herokuapp.com/anime${todo.id}`
+      "https://herokubackendtrab.herokuapp.com/anime/" + id
     );
     getTodos();
   }
 
   async function createTodo() {
-    let aux = inputValue.split(",");
-    let name = aux[0];
-    let episodio = aux[1];
+    const aux = inputValue.split(",");
+    const name = aux[0];
+    const episodio = aux[1];
+    console.log(aux);
     const response = await axios.post("https://herokubackendtrab.herokuapp.com/anime", {
       name: name,
       episodio: episodio
